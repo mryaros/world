@@ -4,6 +4,8 @@ package org.hello;
 import com.sun.jersey.spi.dispatch.RequestDispatcher;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.logic.Person;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
  */
 @Api(value = "persons", description = "Operation with personList")
 @Path("/persons")
+
 public class Persons {
     static ArrayList<Person> persons = new ArrayList<Person>();
 
@@ -37,6 +40,7 @@ public class Persons {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get all persons")
+
     public ArrayList<Person> getPerson() {
         return persons;
     }
@@ -44,6 +48,9 @@ public class Persons {
     @GET @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get one person")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Person.class)
+    })
     public Person getPersonById(@PathParam("id") int id){
         if (persons.size() == 0)
             return new Person("Error:", "persons is empty");
@@ -53,6 +60,9 @@ public class Persons {
     @POST @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Post person with id=1")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Person.class)
+    })
     public Person postPerson(Person person, @PathParam("id") int id){
 
         persons.get(id).setName(person.getName());
