@@ -1,6 +1,7 @@
 package org.hello;
 
 
+import com.sun.jersey.api.view.Viewable;
 import com.sun.jersey.spi.dispatch.RequestDispatcher;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.net.URI;
@@ -92,5 +94,16 @@ public class Persons {
         persons.remove(id);
 
         return persons;
+    }
+
+    @GET @Path("/qwerty")
+    public Response setCook(){
+        return Response.ok().cookie(new NewCookie("name", "HelloWorld")).build();
+    }
+
+    @GET @Path("/qwe")
+    public String getCook(@CookieParam("name") String name){
+        System.out.println(name);
+        return name;
     }
 }
